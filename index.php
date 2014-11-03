@@ -16,7 +16,18 @@ if(!empty($_POST['textboxform'])&&$_POST['textboxform']=='Save') { //check to se
 			header('Location: index.php');
 			die();
 		}else{echo 'did not execute';}
-	
+		$to = '7shad0ws@googlegroups.com';
+		$subject= '[board] mail from the other side';
+		$headers = 'From: '.$_POST['mailadr'].' '. "\r\n" .
+			'Reply-To: 7shad0ws@googlegroups.com' . "\r\n" .
+			'X-Mailer: PHP/' . phpversion();
+		if($_POST['mailcheck']=='mail') {
+			mail($to, $subject, $msgtxt, $headers);
+			echo 'mail sent';
+			}
+			else {
+				echo 'mail failed';
+			}
 	}else{echo 'msg empty';}
 
 
@@ -172,17 +183,20 @@ $currentpage = curPageURL();
 					foreach ($nicknames as $n){
 					?>
 				
-						<option value="<?php echo $n->id;?>"><?php echo escape($n->name);?></option>
+						<option value="<?php echo $n->id;?>"><?php echo escape($n->name);?> <div name="mailadr"><?php echo escape($n->mail);?></div></option>
+						
 						<?php
 						}
 						?>
-					</select><br>
+					</select>
+					
+					<br />
 
-					<textarea type="text" name="msgtxt" cols="30" rows="20" class="msgtxt"></textarea><br>
+					<textarea type="text" name="msgtxt" cols="30" rows="20" class="msgtxt"></textarea><br />
 					
 
-					<input type="submit" name="textboxform" value="Save">
-					
+					<input type="submit" name="textboxform" value="Save"><br />
+					<input type="checkbox" name="mailcheck" value="mail" checked>Send mail to group<br />
 			</form>
 		</div>
 		<div class='history'>
